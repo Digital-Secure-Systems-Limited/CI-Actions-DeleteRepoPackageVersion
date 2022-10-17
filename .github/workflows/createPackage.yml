@@ -54,7 +54,7 @@ jobs:
         if: startsWith(inputs.event-ref, 'refs/tags/v') != true
         
       - name: Cache nuget packages
-        uses: actions/cache@v2        
+        uses: actions/cache@v3        
         with:        
          path: |
            **/*.nupkg
@@ -71,7 +71,7 @@ jobs:
          dotnet-version: 6.0.x
          
      - name: Restore
-       uses: actions/cache@v2
+       uses: actions/cache@v3
        with:
          path: .
          key: ${{ env.cache-name }}      
