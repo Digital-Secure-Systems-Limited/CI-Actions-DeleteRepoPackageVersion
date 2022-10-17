@@ -12,4 +12,4 @@ outputs:
     description: 'name of packages'
 runs:
   using: 'node16'
-  main: 'dist/deletePackage/index.js'
+  main: 'dist/index.js'
