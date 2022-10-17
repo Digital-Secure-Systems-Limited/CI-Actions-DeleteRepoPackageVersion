@@ -13,7 +13,7 @@ on:
 
 env:
   CACHE_NAME: cache-packages
-  VERSION_PREFIX: 0.0.1
+  ALPHA_RELEASE: 0.0.1
 
 jobs:
   version:
