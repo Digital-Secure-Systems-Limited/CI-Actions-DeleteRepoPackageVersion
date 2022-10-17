@@ -10,10 +10,6 @@ on:
         description: 'github.ref_name'
         required: true
         type: string
-      github-token:
-        description: 'GITHUB_TOKEN'
-        required: true
-        type: string
 jobs:
   create:
     runs-on: ubuntu-latest
