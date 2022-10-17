@@ -12,33 +12,30 @@ on:
         type: string
 
 env:
-  cache-name: cache-packages
+  CACHE_NAME: cache-packages
+  VERSION_PREFIX: 0.0.1
 
 jobs:
-  create:
+  version:
     runs-on: ubuntu-latest
     steps:
-
       - name: Set current date as env variable
         run: echo "ALPHA_RELEASE=$(date +'%-H%M%S')" >> $GITHUB_ENV
         if: startsWith(inputs.event-ref, 'refs/tags/v') != true
+           
+  create:
+    needs: version
+    runs-on: ubuntu-latest
+    steps:     
         
       - uses: actions/checkout@v3
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x
-        
+              
       - name: Restore dependencies
         run: dotnet restore
-
-      - name: Set Version Number for Release
-        id: getversionnumber
-        uses: mad9000/actions-find-and-replace-string@2
-        with:
-          source: ${{ inputs.ref-name }} 
-          find: 'v'  
-          replace: ''
       
       - name: Build
         run: dotnet build --no-restore
@@ -57,7 +54,7 @@ jobs:
         uses: actions/cache@v3        
         with:        
          path: ~/
-         key: ${{ env.cache-name }}      
+         key: ${{ env.CACHE_NAME }}      
         
   publish:
     runs-on: ubuntu-latest
@@ -72,7 +69,7 @@ jobs:
        uses: actions/cache@v3
        with:
          path: ~/
-         key: ${{ env.cache-name }}      
+         key: ${{ env.CACHE_NAME }}      
          
      - name: Publish
        run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate -n
