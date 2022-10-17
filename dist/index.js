@@ -33,7 +33,11 @@ try {
 
     packagesNames.forEach(async name => {
 
-        const packageVersion = await octokit.request('GET /user/packages/{package_type}/{package_name}/versions', {
+        const octokit2 = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .vd({
+            auth: `${token}`
+        })
+
+        const packageVersion = await octokit2.request('GET /user/packages/{package_type}/{package_name}/versions', {
             package_type: packageType,
             package_name: name
         })
