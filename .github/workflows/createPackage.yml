@@ -53,12 +53,10 @@ jobs:
           dotnet pack --configuration Release --version-suffix "alpha.${{ env.ALPHA_RELEASE }}"
         if: startsWith(inputs.event-ref, 'refs/tags/v') != true
         
-      - name: Cache nuget packages
+      - name: Cache
         uses: actions/cache@v3        
         with:        
-         path: |
-           **/*.nupkg
-           nuget.config
+         path: ~/
          key: ${{ env.cache-name }}      
         
   publish:
@@ -73,7 +71,7 @@ jobs:
      - name: Restore
        uses: actions/cache@v3
        with:
-         path: .
+         path: ~/
          key: ${{ env.cache-name }}      
          
      - name: Publish
