@@ -15,42 +15,36 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-token');
-  const packageType = "nuget"
+    // `who-to-greet` input defined in action metadata file
+    const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-token');
+    const version = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-version');
+    const packageType = "nuget"
 
 
-  const octokit = new octokit__WEBPACK_IMPORTED_MODULE_1__.Octokit({
-    auth: `${token}`
-  })
+    const octokit = new octokit__WEBPACK_IMPORTED_MODULE_1__.Octokit({
+        auth: `${token}`
+    })
 
-  const  {data} = await octokit.request('GET /user/packages', 
-  { 
-    package_type: packageType
-  });
-  
-  const packagesNames = data.map(x => x.name)
+    const { data } = await octokit.request('GET /user/packages',
+        {
+            package_type: packageType
+        });
 
-  packagesNames.forEach(async name => {
+    const packagesNames = data.map(x => x.name)
 
-    const a = await octokit.request('GET /user/packages/{package_type}/{package_name}/versions', {
-        package_type: packageType,
-        package_name: name
-      })
-});
+    packagesNames.forEach(async name => {
 
+        const packageVersion = await octokit.request('GET /user/packages/{package_type}/{package_name}/versions', {
+            package_type: packageType,
+            package_name: name
+        })
+        console.log(`The event payload: ${JSON.stringify(packageVersion, undefined, 2)}`);
+    });
 
-
-
-  
-
-
-  
-
-  (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("names", JSON.stringify(packagesNames, undefined, 2));
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("names", JSON.stringify(packagesNames, undefined, 2));
 
 } catch (error) {
-  
+
     (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(error.message);
 
 }
