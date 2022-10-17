@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Set current date as env variable
         run: echo "ALPHA_RELEASE=$(date +'%-H%M%S')" >> $GITHUB_ENV
-        if: startsWith(input.event-ref, 'refs/tags/v') != true
+        if: startsWith(inputs.event-ref, 'refs/tags/v') != true
         
       - uses: actions/checkout@v3
       - name: Setup .NET
@@ -31,7 +31,7 @@ jobs:
         id: getversionnumber
         uses: mad9000/actions-find-and-replace-string@2
         with:
-          source: ${{ input.ref-name }} 
+          source: ${{ inputs.ref-name }} 
           find: 'v'  
           replace: ''
       
@@ -40,10 +40,10 @@ jobs:
         
       - name: Create live Package
         run: dotnet pack --configuration Release
-        if: startsWith(input.event-ref, 'refs/tags/v')
+        if: startsWith(inputs.event-ref, 'refs/tags/v')
           
       - name: Create alpha Package
         run: |
           echo "a${{ env.ALPHA_RELEASE }}"
           dotnet pack --configuration Release --version-suffix "alpha.${{ env.ALPHA_RELEASE }}"
-        if: startsWith(input.event-ref, 'refs/tags/v') != true
+        if: startsWith(inputs.event-ref, 'refs/tags/v') != true
