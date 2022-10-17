@@ -62,5 +62,5 @@ jobs:
          dotnet-version: 6.0.x
          
      - name: Publish package
-       run: dotnet nuget push "**/*.nupkg" --api-key ${{ inputs.github-token }} --source "github" --skip-duplicate -n
+       run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate -n
 
