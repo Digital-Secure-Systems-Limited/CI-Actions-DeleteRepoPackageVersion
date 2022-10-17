@@ -14,27 +14,23 @@ try {
 
     const { data } = await octokit.request('GET /user/packages',
         {
-            package_type: packageType
+            package_type: `${packageType}`
         });
 
     const packagesNames = data.map(x => x.name)
 
     console.log(`The event payload: ${JSON.stringify(data, undefined, 2)}`);
 
+    setOutput("names", JSON.stringify(packagesNames, undefined, 2));
+
     packagesNames.forEach(async name => {
 
-        const octokit2 = new Octokit({
-            auth: `${token}`
-        })
-
-        const packageVersion = await octokit2.request('GET /user/packages/{package_type}/{package_name}/versions', {
-            package_type: packageType,
-            package_name: name
+        const packageVersion = await octokit.request('GET /user/packages/{package_type}/{package_name}/versions', {
+            package_type: `${packageType}`,
+            package_name: `${name}`
         })
         console.log(`The event payload: ${JSON.stringify(packageVersion, undefined, 2)}`);
     });
-
-    setOutput("names", JSON.stringify(packagesNames, undefined, 2));
 
 } catch (error) {
 
