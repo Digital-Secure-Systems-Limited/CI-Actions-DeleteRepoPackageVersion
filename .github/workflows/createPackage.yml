@@ -1,0 +1,31 @@
+name: 'Create packages'
+description: 'Creates a nuget package for all projects'
+inputs:
+  event-ref:  eventRef
+    description: 'github.event.ref'
+    required: true  
+  ref-name:  refName
+    description: 'github.ref_name'
+    required: true
+steps:
+  - name: Set current date as env variable
+    run: echo "ALPHA_RELEASE=$(date +'%-H%M%S')" >> $GITHUB_ENV
+    if: startsWith(input.event-ref, 'refs/tags/v') != true
+    
+  - name: Set Version Number for Release
+    id: getversionnumber
+    uses: mad9000/actions-find-and-replace-string@2
+    with:
+      source: ${{ input.ref-name }} 
+      find: 'v'  
+      replace: ''
+
+  - name: Create live Package
+    run: dotnet pack --configuration Release
+    if: startsWith(input.event-ref, 'refs/tags/v')
+      
+  - name: Create alpha Package
+    run: |
+      echo "a${{ env.ALPHA_RELEASE }}"
+      dotnet pack --configuration Release --version-suffix "alpha.${{ env.ALPHA_RELEASE }}"
+    if: startsWith(input.event-ref, 'refs/tags/v') != true
