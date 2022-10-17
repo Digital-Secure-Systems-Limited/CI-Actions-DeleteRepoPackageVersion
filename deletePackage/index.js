@@ -7,6 +7,8 @@ try {
     const version = getInput('package-version');
     const packageType = "nuget"
 
+    version = version.replace('v', '')
+
     const octokit = new Octokit({
         auth: `${token}`
     })
@@ -31,20 +33,21 @@ try {
             const selectedPackageVersion = packageVersion.data.filter(x => x.name == version)
             console.log(`Selected package version: ${JSON.stringify(selectedPackageVersion, undefined, 2)}`);
 
+            if (selectedPackageVersion) {
+                var result = await octokit.request('DELETE /user/packages/{package_type}/{package_name}/versions/{package_version_id}', {
+                    package_type: `${packageType}`,
+                    package_name: `${name}`,
+                    package_version_id: `${selectedPackageVersion.id}`
+                })
+
+                console.log(`Delete result: ${JSON.stringify(result, undefined, 2)}`);
+            }else   
+            {
+                console.log(`Package: ${name} Version:${version}`);
+            }
         }
-
-
-        //if (selectedPackageVersion) {
-        //    await octokit.request('DELETE /user/packages/{package_type}/{package_name}/versions/{package_version_id}', {
-        //        package_type: `${packageType}`,
-        //        package_name: `${name}`,
-        //        package_version_id: `${selectedPackageVersion.id}`
-        //      })
-        //}
     });
 
 } catch (error) {
-
     setFailed(error.message);
-
 }
