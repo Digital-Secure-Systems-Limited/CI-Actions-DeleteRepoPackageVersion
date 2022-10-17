@@ -16,21 +16,32 @@ __nccwpck_require__.r(__webpack_exports__);
 try {
     // `who-to-greet` input defined in action metadata file
     const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-token');
-    //const version = getInput('package-version');
+    const version = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-version');
     const packageType = "nuget"
 
     const octokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .vd({
         auth: `${token}`
-      })
+    })
 
-      const  {data} = await octokit.request('GET /user/packages', 
-      { 
-        package_type: "nuget"
-      });
-   
-      const packagesNames = data.map(x => x.name)
+    const { data } = await octokit.request('GET /user/packages',
+        {
+            package_type: `${packageType}`
+        });
 
-      ;(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("names", JSON.stringify(packagesNames, undefined, 2));
+    const packagesNames = data.map(x => x.name)
+
+    console.log(`The event payload: ${JSON.stringify(data, undefined, 2)}`);
+
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("names", JSON.stringify(packagesNames, undefined, 2));
+
+    packagesNames.forEach(async name => {
+
+        const packageVersion = await octokit.request('GET /user/packages/{package_type}/{package_name}/versions', {
+            package_type: `${packageType}`,
+            package_name: `${name}`
+        })
+        console.log(`The event payload: ${JSON.stringify(packageVersion, undefined, 2)}`);
+    });
 
 } catch (error) {
 
