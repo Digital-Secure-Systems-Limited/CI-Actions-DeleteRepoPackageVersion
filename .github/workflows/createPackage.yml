@@ -10,6 +10,10 @@ on:
         description: 'github.ref_name'
         required: true
         type: string
+      github-token:
+        description: 'GITHUB_TOKEN'
+        required: true
+        type: string
 jobs:
   create:
     runs-on: ubuntu-latest
@@ -58,5 +62,5 @@ jobs:
          dotnet-version: 6.0.x
          
      - name: Publish package
-       run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate -n
+       run: dotnet nuget push "**/*.nupkg" --api-key ${{ inputs.github-token }} --source "github" --skip-duplicate -n
 
