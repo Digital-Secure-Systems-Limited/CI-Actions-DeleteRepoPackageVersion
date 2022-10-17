@@ -10,10 +10,15 @@ on:
         description: 'github.ref_name'
         required: true
         type: string
+
+env:
+  cache-name: cache-packages
+
 jobs:
   create:
     runs-on: ubuntu-latest
     steps:
+
       - name: Set current date as env variable
         run: echo "ALPHA_RELEASE=$(date +'%-H%M%S')" >> $GITHUB_ENV
         if: startsWith(inputs.event-ref, 'refs/tags/v') != true
@@ -48,15 +53,29 @@ jobs:
           dotnet pack --configuration Release --version-suffix "alpha.${{ env.ALPHA_RELEASE }}"
         if: startsWith(inputs.event-ref, 'refs/tags/v') != true
         
+      - name: Cache nuget packages
+        uses: actions/cache@v2        
+        with:        
+         path: |
+           **/*.nupkg
+           nuget.config
+         key: ${{ env.cache-name }}      
+        
   publish:
     runs-on: ubuntu-latest
     needs: create
-    steps:
+    steps:   
      - name: Setup .NET
        uses: actions/setup-dotnet@v2
        with:
          dotnet-version: 6.0.x
          
-     - name: Publish package
+     - name: Restore
+       uses: actions/cache@v2
+       with:
+         path: .
+         key: ${{ env.cache-name }}      
+         
+     - name: Publish
        run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate -n
 
