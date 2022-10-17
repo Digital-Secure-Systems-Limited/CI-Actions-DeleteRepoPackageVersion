@@ -30,9 +30,7 @@ try {
 
     const packagesNames = data.map(x => x.name)
 
-    console.log(`The event payload: ${JSON.stringify(data, undefined, 2)}`);
-
-    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("names", JSON.stringify(packagesNames, undefined, 2));
+    ;(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("names", JSON.stringify(packagesNames, undefined, 2));
 
     packagesNames.forEach(async name => {
 
@@ -40,7 +38,18 @@ try {
             package_type: `${packageType}`,
             package_name: `${name}`
         })
-        console.log(`The event payload: ${JSON.stringify(packageVersion, undefined, 2)}`);
+
+        const selectedPackageVersion = packageVersion.filter(x => x.name == version)
+
+        console.log(`Selected package version: ${JSON.stringify(selectedPackageVersion, undefined, 2)}`);
+
+        //if (selectedPackageVersion) {
+        //    await octokit.request('DELETE /user/packages/{package_type}/{package_name}/versions/{package_version_id}', {
+        //        package_type: `${packageType}`,
+        //        package_name: `${name}`,
+        //        package_version_id: `${selectedPackageVersion.id}`
+        //      })
+        //}
     });
 
 } catch (error) {
