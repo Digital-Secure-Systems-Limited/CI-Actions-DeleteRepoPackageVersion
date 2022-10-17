@@ -6,10 +6,10 @@ inputs:
     required: true
   package-version:  # id of input
     description: 'version'
-    required: true
+    required: false
 outputs:
   names: # id of output
     description: 'name of packages'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
