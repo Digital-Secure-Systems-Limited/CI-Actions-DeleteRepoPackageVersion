@@ -19,7 +19,7 @@ try {
     const version = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-version');
     const packageType = "nuget"
 
-    version = version.replace('v', '')
+    const versionNumber = version.replace('v', '')
 
     const octokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .vd({
         auth: `${token}`
@@ -42,7 +42,7 @@ try {
         })
 
         if (packageVersion.status === 200) {
-            const selectedPackageVersion = packageVersion.data.filter(x => x.name == version)
+            const selectedPackageVersion = packageVersion.data.filter(x => x.name == versionNumber)
             console.log(`Selected package version: ${JSON.stringify(selectedPackageVersion, undefined, 2)}`);
 
             if (selectedPackageVersion) {
@@ -55,7 +55,7 @@ try {
                 console.log(`Delete result: ${JSON.stringify(result, undefined, 2)}`);
             }else   
             {
-                console.log(`Package: ${name} Version:${version}`);
+                console.log(`Package: ${name} Version:${versionNumber}`);
             }
         }
     });
