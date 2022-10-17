@@ -39,10 +39,8 @@ try {
             package_name: `${name}`
         })
 
-        console.log(`Selected package version: ${JSON.stringify(packageVersion, undefined, 2)}`);
-
         if (packageVersion.status === 200) {
-            const selectedPackageVersion = packageVersion.filter(x => x.name == version)
+            const selectedPackageVersion = packageVersion.data.filter(x => x.name == version)
             console.log(`Selected package version: ${JSON.stringify(selectedPackageVersion, undefined, 2)}`);
 
         }
