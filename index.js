@@ -34,13 +34,14 @@ try {
             console.log(`Selected package version: ${JSON.stringify(selectedPackageVersion, undefined, 2)}`);
 
 
-            console.log(`Delete result: ${JSON.stringify(selectedPackageVersion, undefined, 2)}`);
+            console.log(`Selected Package Version: ${JSON.stringify(selectedPackageVersion, undefined, 2)}`);
+            console.log(`Selected Package Version Id: ${selectedPackageVersion.id}`);
 
             if (selectedPackageVersion) {
                 var result = await octokit.request('DELETE /user/packages/{package_type}/{package_name}/versions/{package_version_id}', {
                     package_type: `${packageType}`,
                     package_name: `${name}`,
-                    package_version_id: `${selectedPackageVersion.id}`
+                    package_version_id: selectedPackageVersion.id
                 })
 
                 console.log(`Delete result: ${JSON.stringify(result, undefined, 2)}`);
