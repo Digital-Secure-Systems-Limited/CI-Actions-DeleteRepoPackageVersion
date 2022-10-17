@@ -1,0 +1,15 @@
+name: 'Delete packages'
+description: 'Delete repo packages with the follwoing version'
+inputs:
+  package-token:  # id of input
+    description: 'token'
+    required: true
+  package-version:  # id of input
+    description: 'version'
+    required: true
+outputs:
+  names: # id of output
+    description: 'name of packages'
+runs:
+  using: 'node12'
+  main: 'index.js'
