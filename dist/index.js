@@ -31,6 +31,8 @@ try {
 
     const packagesNames = data.map(x => x.name)
 
+    console.log(`The event payload: ${JSON.stringify(data, undefined, 2)}`);
+
     packagesNames.forEach(async name => {
 
         const octokit2 = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .vd({
