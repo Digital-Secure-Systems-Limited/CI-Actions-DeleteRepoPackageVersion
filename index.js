@@ -2,12 +2,18 @@ import { getInput, setOutput, setFailed } from '@actions/core';
 import { Octokit } from "octokit";
 
 try {
-    // `who-to-greet` input defined in action metadata file
+    
     const token = getInput('package-token');
     const version = getInput('package-version');
     const packageType = "nuget"
+    
+    console.log(`Token ${token}`);
+    console.log(`Version: ${version}`);
+
 
     const versionNumber = version.replace('v', '')
+
+    console.log(`VersionPasrsed: ${versionNumber}`);
 
     const octokit = new Octokit({
         auth: `${token}`
