@@ -28,9 +28,12 @@ try {
             package_type: `${packageType}`,
             package_name: `${name}`
         })
+        console.log(`Package Version status: ${packageVersion.status}`);
 
         if (packageVersion.status === 200) {
-            const selectedPackageVersion = packageVersion.data.filter(x => x.name == versionNumber)
+            console.log(`Package Version Result: ${JSON.stringify(packageVersion, undefined, 2)}`);
+
+            const selectedPackageVersion = packageVersion.data.filter(x => x.name.toLowerCase() === versionNumber.toLowerCase())
 
             if (selectedPackageVersion.length > 0) {
                 var result = await octokit.request('DELETE /user/packages/{package_type}/{package_name}/versions/{package_version_id}', {
