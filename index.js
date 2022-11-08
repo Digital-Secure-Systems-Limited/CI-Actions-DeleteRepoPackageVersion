@@ -18,6 +18,8 @@ try {
             package_type: `${packageType}`
         });
 
+    console.log(`get packages result: ${JSON.stringify(data, undefined, 2)}`);
+
     const packagesNames = data.map(x => x.name)
 
     setOutput("names", JSON.stringify(packagesNames, undefined, 2));
