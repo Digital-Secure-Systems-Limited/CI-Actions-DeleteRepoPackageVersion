@@ -31,6 +31,13 @@ try {
         auth: `${token}`
     })
 
+    const  {org } = await octokit.request('GET /orgs/{org}/packages', {
+        org: 'Digital-Secure-Systems-Limited'
+      })
+
+      console.log(`get org packages result: ${JSON.stringify(org, undefined, 2)}`);
+
+
     const { data } = await octokit.request('GET /user/packages',
         {
             package_type: `${packageType}`
