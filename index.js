@@ -28,7 +28,6 @@ try {
             package_type: `${packageType}`,
             package_name: `${name}`
         })
-        console.log(`Package Version status: ${packageVersion.status}`);
 
         if (packageVersion.status === 200) {
             console.log(`Package Version Result: ${JSON.stringify(packageVersion, undefined, 2)}`);
