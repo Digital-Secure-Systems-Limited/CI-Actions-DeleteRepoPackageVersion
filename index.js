@@ -20,13 +20,14 @@ try {
     })
 
     const  {org } = await octokit.request('GET /orgs/{org}/packages', {
-        org: 'Digital-Secure-Systems-Limited'
+        org: 'Digital-Secure-Systems-Limited',
+        package_type: `${packageType}`
       })
 
       console.log(`get org packages result: ${JSON.stringify(org, undefined, 2)}`);
 
 
-    const { data } = await octokit.request('GET /user/packages',
+    const { data } = await octokit.request('GET /user/packages', 
         {
             package_type: `${packageType}`
         });
