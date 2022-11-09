@@ -25830,9 +25830,12 @@ try {
 
     packagesNames.forEach(async name => {
 
+        let trimedName = name.trim();
+        console.log(`Trimmed name: ${trimedName}`);
+
         const packageVersion = await octokit.request('GET /orgs/Digital-Secure-Systems-Limited/packages/{package_type}/{package_name}/versions', {
             package_type: `${packageType}`,
-            package_name: `${name}`
+            package_name: `${trimedName}`
         })
 
         if (packageVersion.status === 200) {
@@ -25843,13 +25846,13 @@ try {
             if (selectedPackageVersion.length > 0) {
                 var result = await octokit.request('DELETE /orgs/Digital-Secure-Systems-Limited/packages/{package_type}/{package_name}/versions/{package_version_id}', {
                     package_type: `${packageType}`,
-                    package_name: `${name}`,
+                    package_name: `${trimedName}`,
                     package_version_id: selectedPackageVersion[0].id
                 })
 
                 console.log(`Delete result: ${JSON.stringify(result, undefined, 2)}`);
             } else {
-                console.log(`Package: ${name} Version:${versionNumber}`);
+                console.log(`Package: ${trimedName} Version:${versionNumber}`);
             }
         }
     });
