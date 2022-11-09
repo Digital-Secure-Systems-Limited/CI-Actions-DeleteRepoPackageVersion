@@ -19,7 +19,7 @@ try {
         auth: `${token}`
     })
 
-    const  {org } = await octokit.request('GET /orgs/{org}/packages', {
+    const org  = await octokit.request('GET /orgs/{org}/packages', {
         org: 'Digital-Secure-Systems-Limited',
         package_type: `${packageType}`
       })
