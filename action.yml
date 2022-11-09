@@ -7,6 +7,9 @@ inputs:
   package-version:  # id of input
     description: 'version'
     required: false
+  package-names:  # id of input
+    description: 'names'
+    required: true
 outputs:
   names: # id of output
     description: 'name of packages'
