@@ -1,17 +1,14 @@
 import { getInput, setOutput, setFailed } from '@actions/core';
 import { Octokit } from "octokit";
-import { fs } from "fs";
 
 try {
 
-    let dir = "./"
-    const content = fs.readdirSync(dir, { withFileTypes: true });
-
-    console.log(`get packages result: ${JSON.stringify(content, undefined, 2)}`);
-
     const token = getInput('package-token');
     const version = getInput('package-version');
+    const names = getInput('package-names');
+    
     const packageType = "nuget"
+    console.log(`Token ${names}`);
 
     console.log(`Token ${token}`);
     console.log(`Version: ${version}`);
