@@ -1,7 +1,13 @@
 import { getInput, setOutput, setFailed } from '@actions/core';
 import { Octokit } from "octokit";
+import { fs } from "fs";
 
 try {
+
+    let dir = "./"
+    const content = fs.readdirSync(dir, { withFileTypes: true });
+
+    console.log(`get packages result: ${JSON.stringify(content, undefined, 2)}`);
 
     const token = getInput('package-token');
     const version = getInput('package-version');
@@ -18,6 +24,9 @@ try {
     const octokit = new Octokit({
         auth: `${token}`
     })
+
+
+
 
     const { data } = await octokit.request('GET /user/packages',
         {

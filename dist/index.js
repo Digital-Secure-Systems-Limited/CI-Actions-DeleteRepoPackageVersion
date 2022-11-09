@@ -9,11 +9,19 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__) => {
 __nccwpck_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(9169);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var octokit__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3924);
+/* harmony import */ var octokit__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(3924);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7147);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 
 try {
+
+    let dir = "./"
+    const content = fs__WEBPACK_IMPORTED_MODULE_1__.fs.readdirSync(dir, { withFileTypes: true });
+
+    console.log(`get packages result: ${JSON.stringify(content, undefined, 2)}`);
 
     const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-token');
     const version = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-version');
@@ -27,9 +35,12 @@ try {
 
     console.log(`VersionPasrsed: ${versionNumber}`);
 
-    const octokit = new octokit__WEBPACK_IMPORTED_MODULE_1__/* .Octokit */ .vd({
+    const octokit = new octokit__WEBPACK_IMPORTED_MODULE_2__/* .Octokit */ .vd({
         auth: `${token}`
     })
+
+
+
 
     const { data } = await octokit.request('GET /user/packages',
         {
