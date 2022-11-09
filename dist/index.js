@@ -14,11 +14,11 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 try {
-    
+
     const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-token');
     const version = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('package-version');
     const packageType = "nuget"
-    
+
     console.log(`Token ${token}`);
     console.log(`Version: ${version}`);
 
@@ -31,15 +31,7 @@ try {
         auth: `${token}`
     })
 
-    const org  = await octokit.request('GET /orgs/{org}/packages', {
-        org: 'Digital-Secure-Systems-Limited',
-        package_type: `${packageType}`
-      })
-
-      console.log(`get org packages result: ${JSON.stringify(org, undefined, 2)}`);
-
-
-    const { data } = await octokit.request('GET /user/packages', 
+    const { data } = await octokit.request('GET /user/packages',
         {
             package_type: `${packageType}`
         });
@@ -70,8 +62,7 @@ try {
                 })
 
                 console.log(`Delete result: ${JSON.stringify(result, undefined, 2)}`);
-            }else   
-            {
+            } else {
                 console.log(`Package: ${name} Version:${versionNumber}`);
             }
         }
